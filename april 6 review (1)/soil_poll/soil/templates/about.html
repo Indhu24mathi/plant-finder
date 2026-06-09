@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Phytoremediation Plant Selection System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Dark Theme Colors */
+            --bg-primary: #0a0f14;
+            --bg-secondary: #111827;
+            --bg-tertiary: #1f2937;
+            --bg-card: rgba(30, 41, 59, 0.9);
+            --bg-glass: rgba(17, 24, 39, 0.85);
+            
+            --primary: #2d6a4f;
+            --primary-glow: #40916c;
+            --secondary: #52b788;
+            --accent: #74c69d;
+            --accent-glow: rgba(116, 198, 157, 0.4);
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(64, 145, 108, 0.4);
+            
+            --gradient-main: linear-gradient(135deg, #1b4332 0%, #2d6a4f 35%, #40916c 70%, #52b788 100%);
+            --gradient-glow: linear-gradient(135deg, rgba(45,106,79,0.5) 0%, rgba(82,183,136,0.2) 100%);
+            --gradient-card: linear-gradient(145deg, rgba(30,41,59,0.95) 0%, rgba(17,24,39,0.98) 100%);
+            
+            --shadow-sm: 0 2px 12px rgba(0,0,0,0.4);
+            --shadow-md: 0 8px 32px rgba(0,0,0,0.5);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.6);
+            --shadow-glow: 0 0 50px rgba(64, 145, 108, 0.35);
+            --shadow-inner: inset 0 1px 0 rgba(255,255,255,0.05);
+            
+            --border-radius-lg: 24px;
+            --border-radius-xl: 32px;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: 
+                radial-gradient(ellipse at top, #1a2332 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, #0d1b2a 0%, transparent 50%),
+                linear-gradient(135deg, var(--bg-primary) 0%, #0d1117 50%, var(--bg-secondary) 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Grid */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(64, 145, 108, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(64, 145, 108, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+            animation: gridMove 30s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(60px); }
+        }
+
+        /* Ambient Glow Orbs */
+        .ambient-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 0;
+            animation: orbFloat 25s ease-in-out infinite;
+        }
+
+        .glow-1 {
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+
+        .glow-2 {
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            bottom: -150px;
+            left: -100px;
+            animation-delay: -12s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(3%, -3%) scale(1.05); }
+            50% { transform: translate(-2%, 4%) scale(0.95); }
+            75% { transform: translate(4%, 2%) scale(1.02); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--bg-glass);
+            backdrop-filter: blur(25px);
+            box-shadow: var(--shadow-md);
+            z-index: 1000;
+            transition: var(--transition-smooth);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 10px var(--accent-glow));
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-main);
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--accent);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-top: 80px;
+            padding: 5rem 2rem 3rem;
+            background: linear-gradient(135deg, rgba(17, 43, 32, 0.9) 0%, rgba(11, 27, 20, 0.95) 100%),
+                        url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 30%, rgba(64,145,108,0.2) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, var(--bg-primary) 100%);
+            pointer-events: none;
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--secondary);
+        }
+
+        .breadcrumb i {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 5rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(135deg, var(--text-primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-main);
+            border-radius: 2px;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* About Content Grid */
+        .about-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .about-text ul {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .about-text ul li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .about-text ul li i {
+            color: var(--secondary);
+            margin-top: 0.3rem;
+            filter: drop-shadow(0 0 8px rgba(82, 183, 136, 0.4));
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg), 0 0 60px rgba(64, 145, 108, 0.2);
+            border: 1px solid var(--border-color);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(10,15,20,0.6) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-smooth);
+            display: block;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Mission Cards */
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .mission-card {
+            background: var(--gradient-card);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-smooth);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(15px);
+            text-align: center;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            border-color: var(--border-hover);
+        }
+
+        .mission-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(64,145,108,0.2), rgba(45,106,79,0.3));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.8rem;
+            color: var(--accent);
+            border: 1px solid rgba(116, 198, 157, 0.3);
+            box-shadow: 0 8px 25px rgba(64, 145, 108, 0.2);
+        }
+
+        .mission-card h4 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .mission-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Team Section */
+        .team-section {
+            background: linear-gradient(180deg, transparent 0%, rgba(30,41,59,0.3) 50%, transparent 100%);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-card {
+            background: var(--gradient-card);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-smooth);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(15px);
+            text-align: center;
+        }
+
+        .team-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            border-color: var(--border-hover);
+        }
+
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, rgba(64,145,108,0.2), rgba(45,106,79,0.3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--accent);
+            border: 3px solid rgba(116, 198, 157, 0.3);
+            box-shadow: 0 8px 30px rgba(64, 145, 108, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-avatar::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: var(--gradient-main);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .team-card:hover .team-avatar::before {
+            opacity: 0.3;
+        }
+
+        .team-card h4 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .team-card .role {
+            color: var(--accent);
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .team-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .team-social a {
+            width: 36px;
+            height: 36px;
+            background: var(--bg-tertiary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            font-size: 0.9rem;
+        }
+
+        .team-social a:hover {
+            background: var(--gradient-main);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: transparent;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: var(--gradient-card);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(15px);
+            transition: var(--transition-smooth);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            border-color: var(--border-hover);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Technology Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 3rem auto 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: var(--gradient-main);
+            border-radius: 2px;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: calc(50% + 30px);
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: calc(50% + 30px);
+        }
+
+        .timeline-content {
+            background: var(--gradient-card);
+            border-radius: var(--border-radius-lg);
+            padding: 1.5rem 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            max-width: 350px;
+            backdrop-filter: blur(15px);
+            transition: var(--transition-smooth);
+        }
+
+        .timeline-content:hover {
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            border-color: var(--border-hover);
+            transform: translateX(5px);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content:hover {
+            transform: translateX(-5px);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: var(--gradient-main);
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+            box-shadow: 0 0 0 4px rgba(64, 145, 108, 0.3), 0 0 20px var(--accent-glow);
+            z-index: 2;
+        }
+
+        .timeline-content h4 {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content .date {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .timeline-content p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .cta-card {
+            background: var(--gradient-card);
+            border-radius: var(--border-radius-xl);
+            padding: 3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            border: 1px solid var(--border-hover);
+            backdrop-filter: blur(20px);
+        }
+
+        .cta-card h3 {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .cta-card p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            color: var(--text-primary);
+            padding: 4rem 2rem 1rem;
+            border-top: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-main);
+            opacity: 0.6;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-section h3 i {
+            filter: drop-shadow(0 0 8px rgba(116, 198, 157, 0.5));
+        }
+
+        .footer-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 42px;
+            height: 42px;
+            background: var(--bg-card);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            border: 1px solid var(--border-color);
+        }
+
+        .social-links a:hover {
+            background: var(--gradient-main);
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(45, 106, 79, 0.4), 0 0 20px var(--accent-glow);
+            border-color: transparent;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a i {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links a:hover i {
+            opacity: 1;
+            transform: translateX(3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .about-content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mission-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                padding-left: 50px;
+                padding-right: 0;
+                justify-content: flex-start;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            .timeline-content {
+                max-width: 100%;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-card {
+                padding: 2rem;
+            }
+        }
+
+        /* Scroll Animation */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Dark Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-main);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+
+        /* Selection */
+        ::selection {
+            background: rgba(64, 145, 108, 0.4);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Glow Orbs -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="{% url 'index' %}" class="logo">
+                <i class="fas fa-leaf"></i>
+                <span>PhytoRemediate</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'about' %}" class="active">About</a></li>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="page-header-content">
+            <h1>About Our Project</h1>
+            <p>Learn about our mission to revolutionize soil pollution management through innovative phytoremediation technology</p>
+            <div class="breadcrumb">
+                <a href="{% url 'index' %}">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>About</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Content -->
+    <section class="about">
+        <div class="container">
+            <div class="about-content-grid">
+                <div class="about-text scroll-reveal">
+                    <h3>Our Mission & Vision</h3>
+                    <p>
+                        Soil pollution is one of the most critical environmental challenges of our time, affecting agricultural productivity, food safety, and ecosystem health worldwide. Our Phytoremediation Plant Selection System was born from a commitment to develop sustainable, nature-based solutions powered by cutting-edge technology.
+                    </p>
+                    <p>
+                        We combine IoT sensor networks, machine learning algorithms, and botanical science to create an intelligent platform that helps farmers, environmental agencies, and researchers identify, monitor, and remediate contaminated soils effectively.
+                    </p>
+                    
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Real-time soil condition monitoring with pH, temperature, and moisture sensors</li>
+                        <li><i class="fas fa-check-circle"></i> AI-powered pollution pattern prediction and risk assessment</li>
+                        <li><i class="fas fa-check-circle"></i> Smart recommendations for phytoremediation plant selection</li>
+                        <li><i class="fas fa-check-circle"></i> Cloud-based data analytics and instant alert notifications</li>
+                        <li><i class="fas fa-check-circle"></i> User-friendly dashboard for farmers and environmental authorities</li>
+                    </ul>
+
+                    <p>
+                        By bridging the gap between environmental science and technology, we empower communities to take proactive steps toward soil restoration and sustainable land management.
+                    </p>
+                </div>
+                
+                <div class="about-image scroll-reveal">
+                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Environmental Research">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Cards -->
+    <section class="mission">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <h2>Our Core Values</h2>
+                <p>Guiding principles that drive our innovation and impact</p>
+            </div>
+
+            <div class="mission-grid">
+                <div class="mission-card scroll-reveal">
+                    <div class="mission-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h4>Sustainability First</h4>
+                    <p>We prioritize eco-friendly, nature-based remediation methods that restore ecosystems without causing further harm.</p>
+                </div>
+
+                <div class="mission-card scroll-reveal">
+                    <div class="mission-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h4>Innovation Driven</h4>
+                    <p>Leveraging IoT, ML, and cloud technologies to create intelligent, adaptive solutions for environmental challenges.</p>
+                </div>
+
+                <div class="mission-card scroll-reveal">
+                    <div class="mission-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Community Focused</h4>
+                    <p>Designed with farmers, researchers, and local communities in mind to ensure accessibility and real-world impact.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <!--<section class="team-section">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <h2>Meet Our Team</h2>
+                <p>Dedicated experts passionate about environmental technology and sustainable solutions</p>
+            </div>
+
+            <div class="team-grid">
+                <div class="team-card scroll-reveal">
+                    <div class="team-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h4>Dr. Sarah Mitchell</h4>
+                    <span class="role">Lead Environmental Scientist</span>
+                    <p>PhD in Soil Ecology with 15+ years experience in phytoremediation research and ecosystem restoration.</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="team-card scroll-reveal">
+                    <div class="team-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h4>Alex Chen</h4>
+                    <span class="role">IoT Systems Engineer</span>
+                    <p>Specialist in embedded systems and sensor networks, leading hardware development for field deployments.</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="team-card scroll-reveal">
+                    <div class="team-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h4>Maria Rodriguez</h4>
+                    <span class="role">ML & Data Scientist</span>
+                    <p>Expert in predictive modeling and environmental data analytics, developing our pollution prediction algorithms.</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <div class="team-card scroll-reveal">
+                    <div class="team-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h4>James Okonkwo</h4>
+                    <span class="role">Full-Stack Developer</span>
+                    <p>Building scalable cloud infrastructure and intuitive user interfaces for seamless system interaction.</p>
+                    <div class="team-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>-->
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <h2>Project Impact</h2>
+                <p>Measurable results from our pilot deployments and research initiatives</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card scroll-reveal">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Soil Samples Analyzed</div>
+                </div>
+                <div class="stat-card scroll-reveal">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Prediction Accuracy</div>
+                </div>
+                <div class="stat-card scroll-reveal">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Plant Species Database</div>
+                </div>
+                <div class="stat-card scroll-reveal">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Real-Time Monitoring</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Timeline -->
+    <section class="timeline-section">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <h2>Development Journey</h2>
+                <p>Key milestones in bringing our vision to life</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item scroll-reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Project Inception</h4>
+                        <span class="date">Q1 2024</span>
+                        <p>Initial research phase identifying soil pollution challenges and phytoremediation opportunities.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item scroll-reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Prototype Development</h4>
+                        <span class="date">Q3 2024</span>
+                        <p>ESP-32 sensor integration and cloud platform architecture design completed.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item scroll-reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>ML Model Training</h4>
+                        <span class="date">Q1 2025</span>
+                        <p>Pollution prediction algorithms trained on diverse soil datasets with 95% accuracy achieved.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item scroll-reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Pilot Deployment</h4>
+                        <span class="date">Q3 2025</span>
+                        <p>Field testing with partner farms and environmental agencies across multiple regions.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item scroll-reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h4>Public Launch</h4>
+                        <span class="date">Q1 2026</span>
+                        <p>Full platform release with dashboard, mobile access, and expanded plant recommendation database.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-card scroll-reveal">
+                <h3>Ready to Make a Difference?</h3>
+                <p>Join us in creating a cleaner, healthier environment through intelligent soil management solutions.</p>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-leaf"></i> PhytoRemediate</h3>
+                <p>
+                    Advanced phytoremediation plant selection system for intelligent soil pollution management. Combining IoT, Machine Learning, and nature-based solutions for a sustainable future.
+                </p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li><a href="#">Research</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Features</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Soil Monitoring</a></li>
+                    <li><a href="#">ML Analysis</a></li>
+                    <li><a href="#">Alert System</a></li>
+                    <li><a href="#">Plant Selection</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul class="footer-links">
+                    <li><i class="fas fa-envelope"></i> info@phytoremediate.com</li>
+                    <li><i class="fas fa-phone"></i> +1 234 567 8900</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Environmental Research Center</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Phytoremediation Plant Selection System. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 4px 30px rgba(0,0,0,0.3)';
+                navbar.style.background = 'rgba(17, 24, 39, 0.95)';
+            } else {
+                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.2)';
+                navbar.style.background = 'rgba(17, 24, 39, 0.85)';
+            }
+        });
+
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach((el) => observer.observe(el));
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.position = 'fixed';
+                navLinks.style.top = '70px';
+                navLinks.style.left = '0';
+                navLinks.style.right = '0';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.background = 'var(--bg-card)';
+                navLinks.style.padding = '1.5rem 2rem';
+                navLinks.style.margin = '0 1rem';
+                navLinks.style.borderRadius = '16px';
+                navLinks.style.boxShadow = 'var(--shadow-lg)';
+                navLinks.style.border = '1px solid var(--border-color)';
+                navLinks.style.backdropFilter = 'blur(20px)';
+                navLinks.style.zIndex = '999';
+            }
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 968) {
+                    navLinks.style.display = 'none';
+                }
+            });
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 968) {
+                navLinks.style.display = 'flex';
+                navLinks.style.position = '';
+                navLinks.style.background = '';
+                navLinks.style.padding = '';
+                navLinks.style.margin = '';
+                navLinks.style.borderRadius = '';
+                navLinks.style.boxShadow = '';
+                navLinks.style.border = '';
+                navLinks.style.backdropFilter = '';
+                navLinks.style.zIndex = '';
+            }
+        });
+    </script>
+</body>
+</html>

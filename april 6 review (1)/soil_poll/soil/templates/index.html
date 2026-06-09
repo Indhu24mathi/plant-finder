@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phytoremediation Plant Selection System | Soil Pollution Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Dark Theme Colors */
+            --bg-primary: #0a0f14;
+            --bg-secondary: #111827;
+            --bg-tertiary: #1f2937;
+            --bg-card: rgba(30, 41, 59, 0.9);
+            --bg-glass: rgba(17, 24, 39, 0.85);
+            
+            --primary: #2d6a4f;
+            --primary-glow: #40916c;
+            --secondary: #52b788;
+            --accent: #74c69d;
+            --accent-glow: rgba(116, 198, 157, 0.4);
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(64, 145, 108, 0.4);
+            
+            --gradient-main: linear-gradient(135deg, #1b4332 0%, #2d6a4f 35%, #40916c 70%, #52b788 100%);
+            --gradient-glow: linear-gradient(135deg, rgba(45,106,79,0.5) 0%, rgba(82,183,136,0.2) 100%);
+            --gradient-card: linear-gradient(145deg, rgba(30,41,59,0.95) 0%, rgba(17,24,39,0.98) 100%);
+            
+            --shadow-sm: 0 2px 12px rgba(0,0,0,0.4);
+            --shadow-md: 0 8px 32px rgba(0,0,0,0.5);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.6);
+            --shadow-glow: 0 0 50px rgba(64, 145, 108, 0.35);
+            --shadow-inner: inset 0 1px 0 rgba(255,255,255,0.05);
+            
+            --border-radius-lg: 24px;
+            --border-radius-xl: 32px;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: 
+                radial-gradient(ellipse at top, #1a2332 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, #0d1b2a 0%, transparent 50%),
+                linear-gradient(135deg, var(--bg-primary) 0%, #0d1117 50%, var(--bg-secondary) 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Grid */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(64, 145, 108, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(64, 145, 108, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+            animation: gridMove 30s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(60px); }
+        }
+
+        /* Ambient Glow Orbs */
+        .ambient-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 0;
+            animation: orbFloat 25s ease-in-out infinite;
+        }
+
+        .glow-1 {
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+
+        .glow-2 {
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            bottom: -150px;
+            left: -100px;
+            animation-delay: -12s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(3%, -3%) scale(1.05); }
+            50% { transform: translate(-2%, 4%) scale(0.95); }
+            75% { transform: translate(4%, 2%) scale(1.02); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--bg-glass);
+            backdrop-filter: blur(25px);
+            box-shadow: var(--shadow-md);
+            z-index: 1000;
+            transition: var(--transition-smooth);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 10px var(--accent-glow));
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-main);
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--accent);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            min-height: 90vh;
+            background: 
+                linear-gradient(135deg, rgba(17, 43, 32, 0.95) 0%, rgba(11, 27, 20, 0.98) 100%),
+                url('https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(64,145,108,0.15) 0%, transparent 50%);
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100px); }
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(10,15,20,0.8) 100%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 2rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(64,145,108,0.2), rgba(45,106,79,0.3));
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(116, 198, 157, 0.3);
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.4);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gradient-main);
+            color: white;
+            box-shadow: 0 10px 40px rgba(45, 106, 79, 0.4), 0 0 30px var(--accent-glow);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(45, 106, 79, 0.6), 0 0 45px var(--accent-glow);
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid rgba(116, 198, 157, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(116, 198, 157, 0.15);
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(116, 198, 157, 0.2);
+        }
+
+        .btn i {
+            transition: var(--transition-smooth);
+        }
+
+        .btn:hover i {
+            transform: translateX(3px);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(135deg, var(--text-primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-main);
+            border-radius: 2px;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* About Section */
+        .about {
+            background: linear-gradient(180deg, transparent 0%, rgba(30,41,59,0.3) 50%, transparent 100%);
+            position: relative;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg), 0 0 60px rgba(64, 145, 108, 0.2);
+            border: 1px solid var(--border-color);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(10,15,20,0.6) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-smooth);
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-content {
+            padding: 2rem;
+        }
+
+        .about-content h3 {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-smooth);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg), 0 0 30px rgba(64, 145, 108, 0.2);
+            border-color: var(--border-hover);
+        }
+
+        .stat-item i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 10px rgba(82, 183, 136, 0.4));
+        }
+
+        .stat-item h4 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-item p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Features/Proposed System */
+        .features {
+            background: transparent;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--gradient-card);
+            border-radius: var(--border-radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(15px);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-main);
+            transform: scaleX(0);
+            transition: var(--transition-smooth);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            border-color: var(--border-hover);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(64,145,108,0.2), rgba(45,106,79,0.3));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: var(--accent);
+            transition: var(--transition-smooth);
+            border: 1px solid rgba(116, 198, 157, 0.3);
+            box-shadow: 0 8px 25px rgba(64, 145, 108, 0.2);
+        }
+
+        .feature-card:hover .feature-icon {
+            background: var(--gradient-main);
+            color: white;
+            transform: rotateY(360deg) scale(1.1);
+            box-shadow: 0 12px 40px rgba(45, 106, 79, 0.4), 0 0 25px var(--accent-glow);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Dashboard Preview */
+        .dashboard {
+            background: linear-gradient(180deg, transparent 0%, rgba(30,41,59,0.4) 50%, transparent 100%);
+            position: relative;
+        }
+
+        .dashboard-container {
+            background: var(--bg-card);
+            border-radius: var(--border-radius-xl);
+            padding: 3rem;
+            box-shadow: var(--shadow-lg);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+        }
+
+        .dashboard-content h3 {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .dashboard-content p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .feature-list li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .feature-list li i {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 8px rgba(82, 183, 136, 0.4));
+        }
+
+        .dashboard-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg), 0 0 50px rgba(64, 145, 108, 0.2);
+            border: 1px solid var(--border-color);
+        }
+
+        .dashboard-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 30%, rgba(10,15,20,0.4) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .dashboard-image img {
+            width: 100%;
+            display: block;
+            transition: var(--transition-smooth);
+        }
+
+        .dashboard-image:hover img {
+            transform: scale(1.03);
+        }
+
+        .floating-badge {
+            position: absolute;
+            background: var(--bg-card);
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md), 0 0 25px rgba(64, 145, 108, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: floatBadge 3s ease-in-out infinite;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            z-index: 2;
+        }
+
+        .badge-1 {
+            top: 20px;
+            right: -15px;
+            animation-delay: 0s;
+        }
+
+        .badge-2 {
+            bottom: 40px;
+            left: -25px;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating-badge i {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            filter: drop-shadow(0 0 8px rgba(82, 183, 136, 0.4));
+        }
+
+        .floating-badge div strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .floating-badge div span {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Technology Stack */
+        .tech-stack {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            color: var(--text-primary);
+            position: relative;
+        }
+
+        .tech-stack::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.4;
+        }
+
+        .tech-stack .section-header h2 {
+            color: var(--text-primary);
+        }
+
+        .tech-stack .section-header p {
+            color: var(--accent);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .tech-item {
+            background: var(--bg-card);
+            backdrop-filter: blur(15px);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-md);
+        }
+
+        .tech-item:hover {
+            background: linear-gradient(145deg, rgba(45,65,85,0.9), rgba(30,41,59,0.95));
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg), 0 0 35px rgba(64, 145, 108, 0.25);
+            border-color: var(--border-hover);
+        }
+
+        .tech-item i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            filter: drop-shadow(0 0 12px rgba(116, 198, 157, 0.4));
+            transition: var(--transition-smooth);
+        }
+
+        .tech-item:hover i {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .tech-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .tech-item p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            color: var(--text-primary);
+            padding: 4rem 2rem 1rem;
+            border-top: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-main);
+            opacity: 0.6;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-section h3 i {
+            filter: drop-shadow(0 0 8px rgba(116, 198, 157, 0.5));
+        }
+
+        .footer-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            width: 42px;
+            height: 42px;
+            background: var(--bg-card);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            border: 1px solid var(--border-color);
+        }
+
+        .social-links a:hover {
+            background: var(--gradient-main);
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(45, 106, 79, 0.4), 0 0 20px var(--accent-glow);
+            border-color: transparent;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a i {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links a:hover i {
+            opacity: 1;
+            transform: translateX(3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-grid,
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-container {
+                padding: 2rem;
+            }
+        }
+
+        /* Scroll Animation */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Dark Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-main);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+
+        /* Selection */
+        ::selection {
+            background: rgba(64, 145, 108, 0.4);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Glow Orbs -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="{% url 'index' %}" class="logo">
+                <i class="fas fa-leaf"></i>
+                <span>PhytoRemediate</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-seedling"></i> Innovative Environmental Solution
+            </div>
+            <h1>Phytoremediation Plant Selection System</h1>
+            <p>Advanced soil pollution management using IoT sensors, Machine Learning, and cloud technology for sustainable agriculture and ecosystem health</p>
+            <div class="hero-buttons">
+                <a href="#about" class="btn btn-primary">
+                    <i class="fas fa-info-circle"></i> Learn More
+                </a>
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">
+                    <i class="fas fa-chart-line"></i> View Dashboard
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <h2>About The Project</h2>
+                <p>Revolutionizing soil pollution management through technology and nature-based solutions</p>
+            </div>
+            
+            <div class="about-grid">
+                <div class="about-image scroll-reveal">
+                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Soil Monitoring">
+                </div>
+                <div class="about-content scroll-reveal">
+                    <h3>Smart Soil Pollution Management</h3>
+                    <p>
+                        Soil pollution is a major environmental problem affecting agriculture, food quality, and ecosystem health. Our proposed system monitors soil conditions using advanced pH, temperature, and moisture sensors to detect pollution levels in real-time.
+                    </p>
+                    <p>
+                        An ESP-32 microcontroller collects and processes sensor data, transmitting it to a cloud platform for storage, monitoring, and analysis. A Machine Learning algorithm analyzes soil parameters and predicts pollution patterns, enabling early detection and prevention.
+                    </p>
+                    <p>
+                        When abnormal soil conditions are detected, the system generates instant alerts to farmers or authorities, facilitating quick action and better management of soil pollution through phytoremediation plant selection.
+                    </p>
+                    
+                    <div class="stats">
+                        <div class="stat-item">
+                            <i class="fas fa-microchip"></i>
+                            <h4>ESP-32</h4>
+                            <p>Microcontroller</p>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-brain"></i>
+                            <h4>ML</h4>
+                            <p>Algorithm</p>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-cloud"></i>
+                            <h4>Cloud</h4>
+                            <p>Platform</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features/Proposed System -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <h2>Proposed System Features</h2>
+                <p>Comprehensive monitoring and analysis capabilities for effective soil management</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">
+                        <i class="fas fa-thermometer-half"></i>
+                    </div>
+                    <h3>Real-Time Monitoring</h3>
+                    <p>Continuous monitoring of soil pH, temperature, and moisture levels using advanced sensors for accurate pollution detection.</p>
+                </div>
+
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3>ESP-32 Processing</h3>
+                    <p>High-performance microcontroller reads and processes sensor data efficiently with low power consumption.</p>
+                </div>
+
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Cloud Integration</h3>
+                    <p>Seamless data transmission to cloud platform for storage, visualization, and remote access from anywhere.</p>
+                </div>
+
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Machine Learning</h3>
+                    <p>Intelligent ML algorithms analyze soil data patterns and predict pollution levels with high accuracy.</p>
+                </div>
+
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Instant Alerts</h3>
+                    <p>Automated notification system sends immediate alerts to farmers and authorities when abnormal conditions detected.</p>
+                </div>
+
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>Plant Selection</h3>
+                    <p>Recommends suitable phytoremediation plants based on soil pollution type and severity for natural cleanup.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Preview -->
+    <section class="dashboard" id="dashboard">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <h2>System Dashboard</h2>
+                <p>Real-time monitoring and control interface for soil pollution management</p>
+            </div>
+
+            <div class="dashboard-container scroll-reveal">
+                <div class="dashboard-content">
+                    <h3>Advanced Analytics & Control</h3>
+                    <p>
+                        Our intelligent dashboard provides comprehensive visualization of soil parameters, pollution levels, and remediation recommendations. Monitor multiple locations simultaneously with intuitive graphs and charts.
+                    </p>
+                    
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle"></i> Real-time sensor data visualization</li>
+                        <li><i class="fas fa-check-circle"></i> Pollution level prediction & trends</li>
+                        <li><i class="fas fa-check-circle"></i> Automated alert notifications</li>
+                        <li><i class="fas fa-check-circle"></i> Historical data analysis</li>
+                        <li><i class="fas fa-check-circle"></i> Phytoremediation plant recommendations</li>
+                        <li><i class="fas fa-check-circle"></i> Multi-location monitoring support</li>
+                    </ul>
+
+                    <a href="{% url 'dashboard' %}" class="btn btn-primary">
+                        <i class="fas fa-external-link-alt"></i> Access Dashboard
+                    </a>
+                </div>
+                
+                <div class="dashboard-image">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Dashboard Preview">
+                    <div class="floating-badge badge-1">
+                        <i class="fas fa-tint"></i>
+                        <div>
+                            <strong>pH: 6.8</strong>
+                            <span>Optimal Range</span>
+                        </div>
+                    </div>
+                    <div class="floating-badge badge-2">
+                        <i class="fas fa-leaf"></i>
+                        <div>
+                            <strong>Healthy</strong>
+                            <span>Soil Condition</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section class="tech-stack">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <h2>Technology Stack</h2>
+                <p>Powered by cutting-edge technologies for optimal performance</p>
+            </div>
+
+            <div class="tech-grid">
+                <div class="tech-item scroll-reveal">
+                    <i class="fas fa-microchip"></i>
+                    <h4>ESP-32</h4>
+                    <p>IoT Microcontroller</p>
+                </div>
+                <div class="tech-item scroll-reveal">
+                    <i class="fas fa-flask"></i>
+                    <h4>Sensors</h4>
+                    <p>pH, Temp, Moisture</p>
+                </div>
+                <div class="tech-item scroll-reveal">
+                    <i class="fas fa-brain"></i>
+                    <h4>Machine Learning</h4>
+                    <p>Python/TensorFlow</p>
+                </div>
+                <div class="tech-item scroll-reveal">
+                    <i class="fas fa-cloud"></i>
+                    <h4>Cloud Platform</h4>
+                    <p>AWS/Azure/Firebase</p>
+                </div>
+                <div class="tech-item scroll-reveal">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h4>Web/Mobile App</h4>
+                    <p>React/Flutter</p>
+                </div>
+                <div class="tech-item scroll-reveal">
+                    <i class="fas fa-database"></i>
+                    <h4>Database</h4>
+                    <p>MySQL/MongoDB</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-leaf"></i> PhytoRemediate</h3>
+                <p>
+                    Advanced phytoremediation plant selection system for intelligent soil pollution management. Combining IoT, Machine Learning, and nature-based solutions for a sustainable future.
+                </p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#">Research</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Features</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Soil Monitoring</a></li>
+                    <li><a href="#">ML Analysis</a></li>
+                    <li><a href="#">Alert System</a></li>
+                    <li><a href="#">Plant Selection</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul class="footer-links">
+                    <li><i class="fas fa-envelope"></i> info@phytoremediate.com</li>
+                    <li><i class="fas fa-phone"></i> +1 234 567 8900</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Environmental Research Center</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Phytoremediation Plant Selection System. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 4px 30px rgba(0,0,0,0.3)';
+                navbar.style.background = 'rgba(17, 24, 39, 0.95)';
+            } else {
+                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.2)';
+                navbar.style.background = 'rgba(17, 24, 39, 0.85)';
+            }
+        });
+
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach((el) => observer.observe(el));
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.position = 'fixed';
+                navLinks.style.top = '70px';
+                navLinks.style.left = '0';
+                navLinks.style.right = '0';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.background = 'var(--bg-card)';
+                navLinks.style.padding = '1.5rem 2rem';
+                navLinks.style.margin = '0 1rem';
+                navLinks.style.borderRadius = '16px';
+                navLinks.style.boxShadow = 'var(--shadow-lg)';
+                navLinks.style.border = '1px solid var(--border-color)';
+                navLinks.style.backdropFilter = 'blur(20px)';
+                navLinks.style.zIndex = '999';
+            }
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 968) {
+                    navLinks.style.display = 'none';
+                }
+            });
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 968) {
+                navLinks.style.display = 'flex';
+                navLinks.style.position = '';
+                navLinks.style.background = '';
+                navLinks.style.padding = '';
+                navLinks.style.margin = '';
+                navLinks.style.borderRadius = '';
+                navLinks.style.boxShadow = '';
+                navLinks.style.border = '';
+                navLinks.style.backdropFilter = '';
+                navLinks.style.zIndex = '';
+            }
+        });
+    </script>
+</body>
+</html>

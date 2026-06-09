@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Phytoremediation Plant Selection System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Dark Theme Colors */
+            --bg-primary: #0a0f14;
+            --bg-secondary: #111827;
+            --bg-tertiary: #1f2937;
+            --bg-card: rgba(30, 41, 59, 0.85);
+            --bg-glass: rgba(17, 24, 39, 0.85);
+            
+            --primary: #2d6a4f;
+            --primary-glow: #40916c;
+            --secondary: #52b788;
+            --accent: #74c69d;
+            --accent-glow: rgba(116, 198, 157, 0.4);
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(64, 145, 108, 0.4);
+            
+            --gradient-main: linear-gradient(135deg, #1b4332 0%, #2d6a4f 35%, #40916c 70%, #52b788 100%);
+            --gradient-glow: linear-gradient(135deg, rgba(45,106,79,0.5) 0%, rgba(82,183,136,0.2) 100%);
+            --gradient-card: linear-gradient(145deg, rgba(30,41,59,0.9) 0%, rgba(17,24,39,0.95) 100%);
+            
+            --shadow-sm: 0 2px 12px rgba(0,0,0,0.4);
+            --shadow-md: 0 8px 32px rgba(0,0,0,0.5);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.6);
+            --shadow-glow: 0 0 50px rgba(64, 145, 108, 0.35);
+            --shadow-inner: inset 0 1px 0 rgba(255,255,255,0.05);
+            
+            --border-radius-lg: 28px;
+            --border-radius-xl: 32px;
+            --sidebar-width: 300px;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: 
+                radial-gradient(ellipse at top, #1a2332 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, #0d1b2a 0%, transparent 50%),
+                linear-gradient(135deg, var(--bg-primary) 0%, #0d1117 50%, var(--bg-secondary) 100%);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Grid */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(64, 145, 108, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(64, 145, 108, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+            animation: gridMove 30s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(60px); }
+        }
+
+        /* Ambient Glow Orbs */
+        .ambient-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            animation: orbFloat 25s ease-in-out infinite;
+        }
+
+        .glow-1 {
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+
+        .glow-2 {
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            bottom: -150px;
+            left: -100px;
+            animation-delay: -12s;
+        }
+
+        .glow-3 {
+            background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
+            top: 50%;
+            right: 10%;
+            width: 400px;
+            height: 400px;
+            opacity: 0.1;
+            animation-delay: -6s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(3%, -3%) scale(1.05); }
+            50% { transform: translate(-2%, 4%) scale(0.95); }
+            75% { transform: translate(4%, 2%) scale(1.02); }
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 10px var(--accent-glow);
+            animation: particleFloat 20s infinite linear;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 25s; }
+        .particle:nth-child(2) { left: 25%; animation-delay: 3s; animation-duration: 28s; }
+        .particle:nth-child(3) { left: 40%; animation-delay: 6s; animation-duration: 22s; }
+        .particle:nth-child(4) { left: 55%; animation-delay: 2s; animation-duration: 30s; }
+        .particle:nth-child(5) { left: 70%; animation-delay: 5s; animation-duration: 24s; }
+        .particle:nth-child(6) { left: 85%; animation-delay: 1s; animation-duration: 26s; }
+        .particle:nth-child(7) { left: 95%; animation-delay: 4s; animation-duration: 23s; }
+        .particle:nth-child(8) { left: 15%; animation-delay: 7s; animation-duration: 27s; }
+
+        @keyframes particleFloat {
+            0% { 
+                transform: translateY(100vh) rotate(0deg) scale(0); 
+                opacity: 0; 
+            }
+            10% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 0.4; }
+            90% { opacity: 0.6; }
+            100% { 
+                transform: translateY(-100px) rotate(720deg) scale(0); 
+                opacity: 0; 
+            }
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--gradient-main);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 10px 0 50px rgba(0,0,0,0.4);
+            z-index: 100;
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(25px);
+            border-right: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, 
+                rgba(0,0,0,0.2) 0%, 
+                rgba(0,0,0,0.1) 50%, 
+                rgba(0,0,0,0.3) 100%);
+            pointer-events: none;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 1rem 0.5rem;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+            position: relative;
+            z-index: 2;
+        }
+
+        .sidebar-logo i {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: leafPulse 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(116, 198, 157, 0.5));
+        }
+
+        @keyframes leafPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.95; transform: scale(1.08); }
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            flex: 1;
+            padding: 0.5rem 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 0.375rem;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            border-radius: 16px;
+            transition: var(--transition-smooth);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar-menu a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--white);
+            transform: scaleY(0);
+            transition: var(--transition-smooth);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .sidebar-menu a::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, rgba(255,255,255,0.15), transparent);
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            transform: translateX(6px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .sidebar-menu a:hover::after,
+        .sidebar-menu a.active::after {
+            opacity: 1;
+        }
+
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.22);
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.2), 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .sidebar-menu a.active::before {
+            transform: scaleY(1);
+        }
+
+        .sidebar-menu a i {
+            width: 24px;
+            font-size: 1.25rem;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-menu a:hover i {
+            transform: scale(1.15);
+        }
+
+        .sidebar-footer {
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.12);
+            font-size: 0.85rem;
+            opacity: 0.85;
+            position: relative;
+            z-index: 2;
+        }
+
+        .sidebar-footer i {
+            color: var(--accent);
+            margin-right: 0.5rem;
+            filter: drop-shadow(0 0 5px var(--accent-glow));
+        }
+
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 1.25rem;
+            left: 1.25rem;
+            z-index: 101;
+            background: var(--gradient-main);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-smooth);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-toggle:hover {
+            transform: scale(1.08);
+            box-shadow: 0 25px 60px rgba(45, 106, 79, 0.5);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2.5rem;
+            background: var(--bg-glass);
+            border-radius: var(--border-radius-xl);
+            margin-bottom: 2.5rem;
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-main);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .dashboard-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(64,145,108,0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .dashboard-header h1 i {
+            color: var(--secondary);
+            font-size: 1.6rem;
+            animation: iconFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(82, 183, 136, 0.4));
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            padding: 0.625rem 1.5rem;
+            background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(34,197,94,0.05));
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--success);
+            box-shadow: var(--shadow-sm), inset 0 0 0 1px rgba(34,197,94,0.3);
+            border: 1px solid rgba(34, 197, 94, 0.25);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 0 0 rgba(34, 204, 113, 0.7), 0 0 20px rgba(34, 204, 113, 0.4);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 204, 113, 0.7), 0 0 20px rgba(34, 204, 113, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(34, 204, 113, 0), 0 0 20px rgba(34, 204, 113, 0.2); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 204, 113, 0), 0 0 20px rgba(34, 204, 113, 0.4); }
+        }
+
+        /* Cards Grid */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.75rem;
+            padding: 0.5rem 0 1.5rem;
+            flex: 1;
+        }
+
+        .card {
+            background: var(--gradient-card);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem 1.875rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            backdrop-filter: blur(20px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-main);
+            transform: scaleX(0);
+            transition: var(--transition-smooth);
+            z-index: 2;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(64,145,108,0.12) 0%, transparent 65%);
+            opacity: 0;
+            transition: var(--transition-smooth);
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-14px) scale(1.02);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            border-color: var(--border-hover);
+            z-index: 5;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover::after {
+            opacity: 1;
+            animation: ripple 0.7s ease-out;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(1.6);
+                opacity: 0;
+            }
+        }
+
+        .card-glow {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, rgba(116,198,157,0.25) 0%, transparent 75%);
+            border-radius: 50%;
+            top: -40px;
+            right: -40px;
+            opacity: 0;
+            transition: var(--transition-smooth);
+            pointer-events: none;
+            filter: blur(20px);
+        }
+
+        .card:hover .card-glow {
+            opacity: 1;
+            animation: glowPulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.3); opacity: 0.85; }
+        }
+
+        .card-icon {
+            width: 88px;
+            height: 88px;
+            background: linear-gradient(135deg, rgba(64,145,108,0.2), rgba(45,106,79,0.3));
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2.4rem;
+            color: var(--accent);
+            transition: var(--transition-smooth);
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 8px 30px rgba(64, 145, 108, 0.3), var(--shadow-inner);
+            border: 1px solid rgba(116, 198, 157, 0.3);
+        }
+
+        .card:hover .card-icon {
+            background: var(--gradient-main);
+            color: white;
+            transform: rotateY(360deg) scale(1.12);
+            box-shadow: 0 15px 50px rgba(45, 106, 79, 0.5), 0 0 30px var(--accent-glow);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .card-icon i {
+            position: relative;
+            z-index: 3;
+            filter: drop-shadow(0 0 8px rgba(116, 198, 157, 0.5));
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.75px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .card-value.prediction {
+            background: linear-gradient(135deg, var(--secondary), var(--accent), #95d5b2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textShimmer 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(116, 198, 157, 0.4));
+        }
+
+        @keyframes textShimmer {
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 20px rgba(116, 198, 157, 0.4)); }
+            50% { filter: brightness(1.2) drop-shadow(0 0 30px rgba(116, 198, 157, 0.7)); }
+        }
+
+        .card-unit {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-left: 0.25rem;
+        }
+
+        .card-status {
+            margin-top: 1.25rem;
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-smooth);
+            border: 1px solid transparent;
+        }
+
+        .card-status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: statusPulse 2s infinite;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.25); }
+        }
+
+        .status-normal {
+            background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(34,197,94,0.05));
+            color: var(--success);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .status-warning {
+            background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.05));
+            color: var(--warning);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .status-alert {
+            background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(239,68,68,0.05));
+            color: var(--danger);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        /* Action Button */
+        .action-section {
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem 0 2.5rem;
+            position: relative;
+        }
+
+        .action-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 220px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.4;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .btn-predict {
+            padding: 1.25rem 3.5rem;
+            background: var(--gradient-main);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            transition: var(--transition-smooth);
+            box-shadow: 0 12px 45px rgba(45, 106, 79, 0.5), 0 0 40px rgba(64, 145, 108, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .btn-predict::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: left 0.6s ease;
+            z-index: -1;
+        }
+
+        .btn-predict::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: var(--gradient-main);
+            border-radius: 50px;
+            z-index: -2;
+            filter: blur(20px);
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-predict:hover {
+            transform: translateY(-5px) scale(1.04);
+            box-shadow: 0 20px 70px rgba(45, 106, 79, 0.7), 0 0 60px rgba(64, 145, 108, 0.5);
+        }
+
+        .btn-predict:hover::before {
+            left: 100%;
+        }
+
+        .btn-predict:hover::after {
+            opacity: 0.85;
+        }
+
+        .btn-predict:active {
+            transform: translateY(-2px) scale(1.01);
+        }
+
+        .btn-predict i {
+            font-size: 1.3rem;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-predict:hover i {
+            transform: rotate(180deg) scale(1.15);
+        }
+
+        /* Footer */
+        .dashboard-footer {
+            background: var(--bg-glass);
+            border-radius: var(--border-radius-xl);
+            padding: 1.5rem 2.5rem;
+            margin-top: auto;
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.925rem;
+            color: var(--text-secondary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-main);
+            opacity: 0.7;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .footer-copyright {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .footer-copyright i {
+            color: var(--secondary);
+            animation: leafRotate 4s linear infinite;
+            filter: drop-shadow(0 0 8px rgba(82, 183, 136, 0.5));
+        }
+
+        @keyframes leafRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            padding: 0.375rem 0;
+            position: relative;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-main);
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        .footer-links a i {
+            font-size: 0.95rem;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-links a:hover i {
+            transform: translateX(-3px);
+        }
+
+        /* Responsive */
+        @media (max-width: 1400px) {
+            .cards-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 968px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar-toggle {
+                display: flex;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 1.25rem;
+                text-align: center;
+            }
+
+            .dashboard-footer {
+                flex-direction: column;
+                gap: 1.25rem;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-predict.loading .btn-text {
+            display: none;
+        }
+
+        .btn-predict.loading::after {
+            content: '';
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            display: block;
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+        }
+
+        /* Card entrance animation */
+        .card {
+            animation: cardEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(40px) scale(0.98);
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes cardEntrance {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Value update animation */
+        @keyframes valuePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.18); filter: drop-shadow(0 0 20px var(--accent-glow)); }
+            100% { transform: scale(1); }
+        }
+
+        .value-updated {
+            animation: valuePop 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Glow effect on active elements */
+        .glow-on-hover:hover {
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        /* Dark scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-main);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Glow Orbs -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <!-- Animated Particles -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Mobile Sidebar Toggle -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <i class="fas fa-leaf"></i>
+            <span>PhytoRemediate</span>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li>
+                <a href="{% url 'index' %}" class="active">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <p><i class="fas fa-shield-alt"></i> Secure Connection</p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.85;">v2.4.1 • Environmental IoT</p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- Dashboard Header -->
+        <header class="dashboard-header">
+            <h1><i class="fas fa-tachometer-alt"></i> Soil Monitoring Dashboard</h1>
+            <div class="header-actions">
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    <span>System Online</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Cards Grid -->
+        <div class="cards-container">
+            
+            <!-- Card 1: Soil pH -->
+            <div class="card">
+                <div class="card-glow"></div>
+                <div class="card-icon">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div class="card-title">Soil pH Level</div>
+                <div class="card-value" id="ph">--<span class="card-unit"></span></div>
+                <div class="card-status status-normal" id="ph-status">
+                    <span>Waiting for data</span>
+                </div>
+            </div>
+
+            <!-- Card 2: Temperature -->
+            <div class="card">
+                <div class="card-glow"></div>
+                <div class="card-icon">
+                    <i class="fas fa-thermometer-half"></i>
+                </div>
+                <div class="card-title">Temperature</div>
+                <div class="card-value" id="temp">--<span class="card-unit">°C</span></div>
+                <div class="card-status status-normal" id="temp-status">
+                    <span>Normal range</span>
+                </div>
+            </div>
+
+                <!-- Card 3: Soil Moisture -->
+            <div class="card">
+                <div class="card-glow"></div>
+                <div class="card-icon">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <div class="card-title">Soil Moisture</div>
+                <div class="card-value" id="moisture">--<span class="card-unit">%</span></div>
+                <div class="card-status status-normal" id="moisture-status">
+                    <span>Optimal</span>
+                </div>
+            </div>
+
+            <!-- Card 4: Soil Type Prediction -->
+            <div class="card">
+                <div class="card-glow"></div>
+                <div class="card-icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <div class="card-title">Soil Type (ML)</div>
+                <div class="card-value prediction" style="font-size: 2.2rem;" id="soil-type">--</div>
+                <div class="card-status status-normal" id="soil-type-status">
+                    <span>Analyzing</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Action Button -->
+        <div class="action-section">
+            <button class="btn-predict" id="predictBtn">
+                <i class="fas fa-seedling"></i>
+                <span class="btn-text">Plant Recommendation</span>
+            </button>
+        </div>
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <div class="footer-copyright">
+                <i class="fas fa-leaf"></i> © 2026 Phytoremediation System • All rights reserved
+            </div>
+            <div class="footer-links">
+                <a href="{% url 'index' %}"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        // Sidebar toggle for mobile
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 968 && 
+                !sidebar.contains(e.target) && 
+                !sidebarToggle.contains(e.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+function loadLiveData() {
+
+    fetch("https://api.thingspeak.com/channels/582182/feeds/last.json")
+    .then(response => response.json())
+    .then(sensor => {
+
+        if(!sensor.field1 || !sensor.field2 || !sensor.field3){
+            console.log("Waiting for data...");
+            return;
+        }
+
+        let temp = parseFloat(sensor.field1);
+        let moisture = parseFloat(sensor.field2);
+        let ph = parseFloat(sensor.field3);
+
+        let soilTypeStr = "Healthy";
+        if (ph < 6.5) soilTypeStr = "Acidic";
+        else if (ph > 7.5) soilTypeStr = "Basic";
+
+        // ✅ Update cards
+        animateValue("temp", temp, '°C');
+        animateValue("moisture", moisture, '%');
+        animateValue("ph", ph.toFixed(1), '');
+
+        const soilTypeEl = document.getElementById("soil-type");
+        if (soilTypeEl.innerText !== soilTypeStr) {
+            soilTypeEl.innerText = soilTypeStr;
+            soilTypeEl.classList.add('value-updated');
+            setTimeout(() => { soilTypeEl.classList.remove('value-updated'); }, 400);
+        }
+
+        updateStatus('ph', ph, 5.5, 7.5);
+        updateStatus('temp', temp, 15, 35);
+        updateStatus('moisture', moisture, 20, 80);
+
+        const soilTypeStatusEl = document.getElementById("soil-type-status");
+        if (soilTypeStr === "Healthy") {
+            soilTypeStatusEl.innerHTML = '<span>Optimal condition</span>';
+            soilTypeStatusEl.className = "card-status status-normal";
+        } else {
+            soilTypeStatusEl.innerHTML = '<span>Needs treatment</span>';
+            soilTypeStatusEl.className = "card-status status-warning";
+        }
+
+        // Removed infinite recursive call to loadLiveData()
+    })
+    .catch(err => console.error(err));
+}
+        // Original prediction logic - preserved exactly as requested
+function getPrediction() {
+    const btn = document.getElementById('predictBtn');
+    
+    // Get current values from the sensor cards
+    const temp = parseFloat(document.getElementById("temp").innerText);
+    const moisture = parseFloat(document.getElementById("moisture").innerText);
+    const ph = parseFloat(document.getElementById("ph").innerText);
+
+    // If data is still loading
+    if (isNaN(temp) || isNaN(moisture) || isNaN(ph)) {
+        alert("Please wait for sensor data to load.");
+        return;
+    }
+
+    // Redirect to prediction page with query parameters
+    window.location.href = `/prediction/?temp=${temp}&moisture=${moisture}&ph=${ph}`;
+}
+
+// Attach event listener to the button
+document.getElementById('predictBtn').addEventListener('click', getPrediction);
+  // Animate value update with pop effect
+        function animateValue(elementId, value, unit) {
+            const el = document.getElementById(elementId);
+            const newValue = value + (unit ? `<span class="card-unit">${unit}</span>` : '<span class="card-unit"></span>');
+            if (el.innerHTML !== newValue) {
+                el.innerHTML = newValue;
+                el.classList.add('value-updated');
+                setTimeout(() => {
+                    el.classList.remove('value-updated');
+                }, 400);
+            }
+        }
+
+        // Helper function to update status indicators
+        function updateStatus(elementId, value, min, max) {
+            const statusEl = document.getElementById(elementId + '-status');
+            if (value < min || value > max) {
+                statusEl.innerHTML = '<span>Outside optimal range</span>';
+                statusEl.className = "card-status status-warning";
+            } else {
+                statusEl.innerHTML = '<span>Optimal range</span>';
+                statusEl.className = "card-status status-normal";
+            }
+        }
+
+        // Initialize with subtle animation delay
+        document.addEventListener('DOMContentLoaded', () => {
+            // Trigger card animations
+            document.querySelectorAll('.card').forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0) scale(1)';
+                }, 100 * index);
+            });
+
+            // Add subtle hover effect to sidebar links on desktop
+            if (window.innerWidth > 968) {
+                document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                    link.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateX(8px)';
+                    });
+                    link.addEventListener('mouseleave', function() {
+                        if (!this.classList.contains('active')) {
+                            this.style.transform = 'translateX(0)';
+                        }
+                    });
+                });
+            }
+        });
+
+        // Handle window resize for sidebar
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 968) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+        // 🔥 Auto load every 5 seconds
+setInterval(loadLiveData, 5000);
+
+// First load immediately
+loadLiveData();
+    </script>
+</body>
+</html>

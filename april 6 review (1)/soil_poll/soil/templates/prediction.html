@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction | Phytoremediation Plant Selection System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0f14;
+            --bg-secondary: #111827;
+            --bg-tertiary: #1f2937;
+            --bg-card: rgba(30, 41, 59, 0.85);
+            --bg-glass: rgba(17, 24, 39, 0.85);
+            
+            --primary: #2d6a4f;
+            --primary-glow: #40916c;
+            --secondary: #52b788;
+            --accent: #74c69d;
+            --accent-glow: rgba(116, 198, 157, 0.4);
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(64, 145, 108, 0.4);
+            
+            --gradient-main: linear-gradient(135deg, #1b4332 0%, #2d6a4f 35%, #40916c 70%, #52b788 100%);
+            --gradient-card: linear-gradient(145deg, rgba(30,41,59,0.9) 0%, rgba(17,24,39,0.95) 100%);
+            
+            --shadow-sm: 0 2px 12px rgba(0,0,0,0.4);
+            --shadow-md: 0 8px 32px rgba(0,0,0,0.5);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.6);
+            --shadow-glow: 0 0 50px rgba(64, 145, 108, 0.35);
+            
+            --border-radius-lg: 28px;
+            --border-radius-xl: 32px;
+            --sidebar-width: 300px;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: 
+                radial-gradient(ellipse at top, #1a2332 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, #0d1b2a 0%, transparent 50%),
+                linear-gradient(135deg, var(--bg-primary) 0%, #0d1117 50%, var(--bg-secondary) 100%);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background Grid */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(64, 145, 108, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(64, 145, 108, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--gradient-main);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 10px 0 50px rgba(0,0,0,0.4);
+            z-index: 100;
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(25px);
+            border-right: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 1rem 0.5rem;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            flex: 1;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            border-radius: 16px;
+            transition: var(--transition-smooth);
+            font-weight: 500;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            transform: translateX(6px);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2.5rem;
+            background: var(--bg-glass);
+            border-radius: var(--border-radius-xl);
+            margin-bottom: 2.5rem;
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border-color);
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+        }
+
+        /* Cards Grid */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            padding: 0.5rem 0 1.5rem;
+        }
+
+        .card {
+            background: var(--gradient-card);
+            border-radius: var(--border-radius-lg);
+            padding: 2.5rem 2rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            backdrop-filter: blur(20px);
+        }
+
+        .card-icon {
+            width: 88px;
+            height: 88px;
+            background: linear-gradient(135deg, rgba(64,145,108,0.2), rgba(45,106,79,0.3));
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2.4rem;
+            color: var(--accent);
+            border: 1px solid rgba(116, 198, 157, 0.3);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .card-value.prediction {
+            background: linear-gradient(135deg, var(--secondary), var(--accent), #95d5b2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Plant List Styles */
+        .plant-list {
+            text-align: left;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .plant-item {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.25rem;
+            border-left: 5px solid var(--accent);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .plant-name {
+            font-weight: 800;
+            color: var(--text-primary);
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .plant-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .detail-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+        .detail-label {
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+        .detail-value {
+            color: var(--text-secondary);
+        }
+
+        .phytoremediation-box {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            color: var(--text-primary);
+        }
+
+        .calc-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .calc-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--info);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .calc-data {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .calc-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--info);
+        }
+
+        .cycles-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--success);
+        }
+
+        /* Responsive Grid change for content */
+        .cards-container-expanded {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding: 0.5rem 0 1.5rem;
+        }
+
+        /* Footer */
+        .dashboard-footer {
+            background: var(--bg-glass);
+            border-radius: var(--border-radius-xl);
+            padding: 1.5rem 2.5rem;
+            margin-top: auto;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fas fa-leaf"></i>
+            <span>PhytoRemediate</span>
+        </div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="{% url 'dashboard' %}">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="active">
+                    <i class="fas fa-magic"></i>
+                    <span>Prediction</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header class="dashboard-header">
+            <h1><i class="fas fa-search-location"></i> Analysis Results</h1>
+        </header>
+
+        <div class="cards-container-expanded">
+            <!-- Soil Status Prediction (Using ML Model) -->
+            <div class="card" style="width: 100%; max-width: 600px; margin: 0 auto; padding: 1.5rem;">
+                <div class="card-title">Soil ML Status Prediction</div>
+                <div class="card-value prediction" id="soil-status" style="font-size: 2.2rem;">Analyzing...</div>
+            </div>
+
+            <div class="card" style="align-items: flex-start; text-align: left;">
+                <div class="card-title" style="font-size: 1.5rem; margin-bottom: 1.5rem;">
+                    <i class="fas fa-seedling"></i> Plant Recommendations & Recovery
+                </div>
+                <!-- Phytoremediation and General Info Placeholder -->
+                <div id="phytoremediation-info"></div>
+
+                <div id="recommendation-content" class="plant-list">
+                </div>
+
+                <!-- Recovery Calculation Placeholder -->
+                <div id="recovery-calc"></div>
+            </div>
+        </div>
+
+        <footer class="dashboard-footer">
+            <div class="footer-copyright">
+                <i class="fas fa-leaf"></i> © 2026 Phytoremediation System
+            </div>
+            <div class="footer-links">
+                <a href="{% url 'dashboard' %}"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const temp = parseFloat(urlParams.get('temp'));
+            const moisture = parseFloat(urlParams.get('moisture'));
+            const ph = parseFloat(urlParams.get('ph'));
+
+            if (isNaN(temp) || isNaN(moisture) || isNaN(ph)) {
+                document.getElementById('soil-status').innerText = 'Invalid Input';
+                return;
+            }
+
+            // ML Prediction (Kept intact)
+            fetch("/predict/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    N: 90, P: 40, K: 40,
+                    temperature: temp,
+                    humidity: moisture,
+                    ph: ph
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('soil-status').innerText = data.prediction;
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('soil-status').innerText = 'Error';
+            });
+
+            // --- Database of Plants ---
+            const acidicPlants = [
+                { name: "Rice", emoji: "🌾", time: "3–4 months", season: "Monsoon (June–November)", price: "₹20–₹60 per kg", regions: "West Bengal, Tamil Nadu, Kerala, Punjab, Andhra Pradesh", nature: "High rainfall, water-rich fields, humid climate", c_factor: 0.30 },
+                { name: "Potato", emoji: "🥔", time: "2–3 months", season: "Winter (October–February)", price: "₹15–₹30 per kg", regions: "Uttar Pradesh, Punjab, Bihar, West Bengal", nature: "Cool climate, fertile soil, moderate rainfall", c_factor: 0.20 },
+                { name: "Sweet Potato", emoji: "🍠", time: "3–5 months", season: "Summer & Monsoon", price: "₹20–₹40 per kg", regions: "Odisha, Tamil Nadu, Uttar Pradesh, West Bengal", nature: "Tropical climate, well-drained soil, moderate rainfall", c_factor: 0.18 },
+                { name: "Tea Plant", emoji: "🍵", time: "2–3 years", season: "Year-round", price: "₹150–₹300 per kg", regions: "Assam, West Bengal, Tamil Nadu, Kerala", nature: "Cool hilly regions, high humidity, heavy rainfall", c_factor: 0.10 },
+                { name: "Pineapple", emoji: "🍍", time: "12–18 months", season: "Tropical climate", price: "₹30–₹80 per fruit", regions: "Assam, Meghalaya, Tripura, Kerala, West Bengal", nature: "Tropical climate, high humidity, well-drained soil", c_factor: 0.12 }
+            ];
+
+            const basicPlants = [
+                { name: "Barley", emoji: "🌾", time: "3–4 months", season: "Winter (Rabi crop)", price: "₹20–₹35 per kg", regions: "Rajasthan, Uttar Pradesh, Haryana, Punjab", nature: "Dry and cool climate, low rainfall", c_factor: -0.20 },
+                { name: "Cotton", emoji: "☁️", time: "5–6 months", season: "Summer (March–September)", price: "₹60–₹80 per kg", regions: "Gujarat, Maharashtra, Telangana, Punjab", nature: "Hot climate, low to moderate rainfall, black soil", c_factor: -0.25 },
+                { name: "Sunflower", emoji: "🌻", time: "2–3 months", season: "All seasons", price: "₹40–₹70 per kg", regions: "Karnataka, Maharashtra, Andhra Pradesh, Tamil Nadu", nature: "Warm climate, moderate rainfall, well-drained soil", c_factor: -0.30 },
+                { name: "Beetroot", emoji: "🧅", time: "2–3 months", season: "Winter", price: "₹20–₹50 per kg", regions: "Uttar Pradesh, West Bengal, Punjab, Tamil Nadu", nature: "Cool climate, fertile and well-drained soil", c_factor: -0.18 },
+                { name: "Spinach", emoji: "🥬", time: "30–45 days", season: "Winter & mild climates", price: "₹20–₹40 per kg", regions: "Across India", nature: "Mild to cool climate, fertile soil, regular watering", c_factor: -0.15 }
+            ];
+
+            // Render Logic
+            const container = document.getElementById('recommendation-content');
+            const phytoInfo = document.getElementById('phytoremediation-info');
+            const calcDiv = document.getElementById('recovery-calc');
+
+            let soilType = 'Healthy';
+            if (ph < 6.5) soilType = 'Acidic';
+            else if (ph > 7.5) soilType = 'Basic';
+
+            // HTML Generator for Plants
+            const renderPlants = (plantsArr) => {
+                let htmlOut = ``;
+                plantsArr.forEach((p) => {
+                    let cycles = 0;
+                    if (soilType === 'Acidic') cycles = (7.0 - ph) / p.c_factor;
+                    else if (soilType === 'Basic') cycles = (ph - 7.0) / Math.abs(p.c_factor);
+                    cycles = Math.ceil(Math.max(1, cycles));
+
+                    htmlOut += `
+                    <div class="plant-item">
+                        <div class="plant-name">${p.emoji} ${p.name}</div>
+                        <div class="plant-details">
+                            <div class="detail-row"><span class="detail-label">Growth Time:</span><span class="detail-value">${p.time}</span></div>
+                            <div class="detail-row"><span class="detail-label">Best Season:</span><span class="detail-value">${p.season}</span></div>
+                            <div class="detail-row"><span class="detail-label">Market Price:</span><span class="detail-value">${p.price}</span></div>
+                            <div class="detail-row"><span class="detail-label">Correction Factor:</span><span class="detail-value" style="color:var(--accent); font-weight:600;">${p.c_factor > 0 ? '+'+p.c_factor : p.c_factor} / cycle</span></div>
+                            <div class="detail-row" style="grid-column: 1 / -1;"><span class="detail-label">Regions:</span><span class="detail-value">${p.regions}</span></div>
+                            <div class="detail-row" style="grid-column: 1 / -1;"><span class="detail-label">Nature of Place:</span><span class="detail-value">${p.nature}</span></div>
+                        </div>
+                        <div style="margin-top:0.8rem; background:rgba(0,0,0,0.15); padding: 0.5rem; border-radius:8px; display:inline-block; font-size:0.9rem;">
+                            <strong>Recovery Cycles Required: ~${cycles}</strong>
+                        </div>
+                    </div>`;
+                });
+                return htmlOut;
+            };
+
+            if (soilType === "Acidic") {
+                phytoInfo.innerHTML = `
+                    <div class="phytoremediation-box">
+                        <strong><i class="fas fa-microscope"></i> Phytoremediation Ability (Acidic Soil):</strong>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>These plants absorb excess acidity (H⁺ ions)</li>
+                            <li>Improve soil organic matter</li>
+                        </ul>
+                    </div>
+                `;
+                container.innerHTML = renderPlants(acidicPlants);
+            } 
+            else if (soilType === "Basic") {
+                phytoInfo.innerHTML = `
+                    <div class="phytoremediation-box">
+                        <strong><i class="fas fa-microscope"></i> Phytoremediation Ability (Basic Soil):</strong>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Absorb alkaline salts (Na, Ca compounds)</li>
+                            <li>Improve soil structure</li>
+                        </ul>
+                    </div>
+                `;
+                container.innerHTML = renderPlants(basicPlants);
+            } 
+            else {
+                phytoInfo.innerHTML = `
+                    <div class="phytoremediation-box" style="border-color:var(--success);">
+                        <strong><i class="fas fa-check-circle"></i> “Your soil is healthy. You can grow a wide variety of crops.”</strong>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Vegetables</li>
+                            <li>Pulses</li>
+                            <li>Cereals</li>
+                        </ul>
+                    </div>
+                `;
+                container.innerHTML = "";
+            }
+
+            // Recovery Calculator section
+            if (soilType !== "Healthy") {
+                const diff = soilType === 'Acidic' ? (7.0 - ph).toFixed(2) : (ph - 7.0).toFixed(2);
+                calcDiv.innerHTML = `
+                    <div class="calc-box">
+                        <div class="calc-title"><i class="fas fa-calculator"></i> SOIL RECOVERY CYCLE CALCULATION</div>
+                        <p style="margin-bottom:1rem; color:var(--text-secondary);">Calculate number of crop cycles required to normalize soil pH.</p>
+                        
+                        <div class="calc-data">
+                            <div class="calc-item">
+                                <div class="detail-label">Step 1: Define Variables</div>
+                                <div>Initial pH = <strong>${ph}</strong></div>
+                                <div>Target pH = <strong>7.0</strong></div>
+                                <div>Difference = <strong>${diff}</strong></div>
+                            </div>
+                            <div class="calc-item">
+                                <div class="detail-label">Step 3: Formula</div>
+                                <div><code style="background:rgba(0,0,0,0.2); padding:0.2rem;">Cycles = ${soilType === 'Acidic' ? '(7.0 - Initial_pH)' : '(Initial_pH - 7.0)'} / Factor</code></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                calcDiv.innerHTML = "";
+            }
+        });
+    </script>
+</body>
+</html>
